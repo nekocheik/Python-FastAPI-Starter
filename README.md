@@ -23,6 +23,7 @@ Un projet starter Python backend basé sur FastAPI avec PostgreSQL et OAuth2.
 │   ├── services            # Logique métier
 │   └── main.py             # Point d'entrée de l'application
 ├── alembic                 # Migrations de base de données
+├── scripts                 # Scripts utilitaires
 ├── tests                   # Tests unitaires et d'intégration
 ├── .env                    # Variables d'environnement (non versionné)
 ├── .env.example            # Exemple de variables d'environnement
@@ -32,7 +33,9 @@ Un projet starter Python backend basé sur FastAPI avec PostgreSQL et OAuth2.
 
 ## Installation et démarrage
 
-### 1. Configurer l'environnement
+### Méthode 1: Environnement virtuel Python
+
+#### 1. Configurer l'environnement
 
 ```bash
 # Cloner le dépôt
@@ -50,7 +53,7 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-### 2. Initialiser la base de données
+#### 2. Initialiser la base de données
 
 ```bash
 # Lancer PostgreSQL (si non démarré)
@@ -60,12 +63,48 @@ cp .env.example .env
 alembic upgrade head
 ```
 
-### 3. Démarrer l'application
+#### 3. Démarrer l'application
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
+### Méthode 2: Utiliser le script de démarrage
+
+```bash
+# Rendre le script exécutable
+chmod +x scripts/startup.sh
+
+# Exécuter le script
+./scripts/startup.sh
+```
+
+### Méthode 3: Docker
+
+```bash
+# Construire et démarrer les conteneurs
+docker-compose up -d
+
+# Appliquer les migrations
+docker-compose exec api alembic upgrade head
+```
+
+## Utilisation du starter
+
 L'API sera disponible à l'adresse http://localhost:8000
 
-Documentation API: http://localhost:8000/docs 
+Documentation API: http://localhost:8000/docs
+
+### Créer un super utilisateur
+
+```bash
+# Méthode 1: Environnement virtuel
+python scripts/create_superuser.py
+
+# Méthode 2: Docker
+docker-compose exec api python scripts/create_superuser.py
+```
+
+## Documentation supplémentaire
+
+Pour plus d'informations sur l'ajout ou la suppression de fonctionnalités, consultez le [Guide d'utilisation](GUIDE.md). 
